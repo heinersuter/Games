@@ -2,9 +2,9 @@ namespace Battleships.Infrastructure;
 
 public class Cell(int x, int y)
 {
-    public string Column { get; } = $"{(char)('A' + x)}";
+    public char Column { get; } = (char)('A' + x);
     
-    public string Row { get; } = $"{y + 1}";
+    public int Row { get; } = y + 1;
     
     public string Name => $"{Column}{Row}";
     

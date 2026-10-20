@@ -13,17 +13,13 @@ public static class GridPrinter
 
         private void PrintColumnHeaders()
         {
-            Console.Write("     ");
-            for (var i = 0; i < grid.Width; i++)
-            {
-                if (i > 0)
-                {
-                    Console.Write("   ");
-                }
+            var headers = grid.Cells
+                .Select(cell => cell.Column)
+                .Distinct()
+                .OrderBy(column => column);
 
-                Console.Write((char)('A' + i));
-            }
-            
+            Console.Write("     ");
+            Console.Write(string.Join("   ", headers));
             Console.WriteLine();
             
             grid.PrintHorizontalDashes();
@@ -31,12 +27,16 @@ public static class GridPrinter
 
         private void PrintRows()
         {
-            for (var i = 0; i < grid.Height; i++)
+            var cellsByRow = grid.Cells
+                .GroupBy(cell => cell.Row)
+                .OrderBy(group => group.Key);
+
+            foreach (var row in cellsByRow)
             {
-                Console.Write($"{i + 1,2} |");
-                for (var j = 0; j < grid.Width; j++)
+                Console.Write($"{row.Key + 1,2} |");
+                foreach (var cell in row)
                 {
-                    Console.Write("   |");
+                    Console.Write($" {CellStatusToSymbol(cell.Status)} |");
                 }
                 
                 Console.WriteLine();
@@ -50,5 +50,17 @@ public static class GridPrinter
             Console.Write("   ");
             Console.WriteLine(new string('-', 4 * grid.Width + 1));
         }
+    }
+        
+    private static char CellStatusToSymbol(CellStatus status)
+    {
+        return status switch
+        {
+            CellStatus.Unknown => ' ',
+            CellStatus.Miss => '~',
+            CellStatus.Hit => 'X',
+            CellStatus.Sunk => '#',
+            _ => throw new ArgumentOutOfRangeException(nameof(status), status, null)
+        };
     }
 }
