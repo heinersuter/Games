@@ -1,4 +1,7 @@
 <Solution>
-  <Project Path="Battleships/Battleships.csproj" />
+  <Folder Name="/Battleships/">
+    <Project Path="Battleships.Server/Battleships.Server.csproj" />
+    <Project Path="Battleships/Battleships.csproj" />
+  </Folder>
   <Project Path="TicTacToe/TicTacToe.csproj" />
 </Solution>

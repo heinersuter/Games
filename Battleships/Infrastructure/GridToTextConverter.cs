@@ -1,31 +1,35 @@
 namespace Battleships.Infrastructure;
 
-public static class GridPrinter
+public static class GridToTextConverter
 {
     extension(Grid grid)
     {
-        public void Print()
+        public IEnumerable<string> ToLines()
         {
-            grid.PrintColumnHeaders();
-
-            grid.PrintRows();
+            foreach (var line in grid.PrintColumnHeaders())
+            {
+                yield return line;
+            }
+            
+            foreach (var line in grid.PrintRows())
+            {
+                yield return line;
+            }
         }
 
-        private void PrintColumnHeaders()
+        private IEnumerable<string> PrintColumnHeaders()
         {
             var headers = grid.Cells
                 .Select(cell => cell.Column)
                 .Distinct()
                 .OrderBy(column => column);
 
-            Console.Write("     ");
-            Console.Write(string.Join("   ", headers));
-            Console.WriteLine();
-            
-            grid.PrintHorizontalDashes();
+            yield return $"     {string.Join("   ", headers)}  ";
+             
+            yield return grid.PrintHorizontalDashes();
         }
 
-        private void PrintRows()
+        private IEnumerable<string> PrintRows()
         {
             var cellsByRow = grid.Cells
                 .GroupBy(cell => cell.Row)
@@ -33,22 +37,21 @@ public static class GridPrinter
 
             foreach (var row in cellsByRow)
             {
-                Console.Write($"{row.Key + 1,2} |");
+                var line = $"{row.Key,2} |";
                 foreach (var cell in row)
                 {
-                    Console.Write($" {CellStatusToSymbol(cell.Status)} |");
+                    line += $" {CellStatusToSymbol(cell.Status)} |";
                 }
                 
-                Console.WriteLine();
+                yield return line;
                 
-                grid.PrintHorizontalDashes();
+                yield return grid.PrintHorizontalDashes();
             }
         }
 
-        private void PrintHorizontalDashes()
+        private string PrintHorizontalDashes()
         {
-            Console.Write("   ");
-            Console.WriteLine(new string('-', 4 * grid.Width + 1));
+            return $"   {new string('-', 4 * grid.Width + 1)}";
         }
     }
         
