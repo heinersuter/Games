@@ -12,7 +12,12 @@ public static class ShipPlacementService
             {
                 var gridCell = ownGrid.Cells.FirstOrDefault(cell =>
                     cell.Location.Row == shipCell.Row && cell.Location.Column == shipCell.Column);
-                
+
+                if (gridCell == null)
+                {
+                    return $"Invalid cell for ship placement: {shipCell.Column}{shipCell.Row}";
+                }
+
                 if (gridCell is not { Status: CellStatus.Water })
                 {
                     return $"Invalid ship placement: {shipCell.Column}{shipCell.Row}";
@@ -21,6 +26,8 @@ public static class ShipPlacementService
                 gridCell.Status = CellStatus.Ship;
             }
         }
+
+        ownGrid.Status = GridStatus.ShipsPlaced;
 
         return null;
     }

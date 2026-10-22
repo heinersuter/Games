@@ -1,3 +1,4 @@
+using Battleships.Server.GamePlay.ShipPlacement;
 using Battleships.Server.Infrastructure;
 
 namespace Battleships.Server.GamePlay;
@@ -33,7 +34,7 @@ public static class GameMapper
         {
             return new ShipRequirementDto
             {
-                Length = shipRequirement.Length,
+                Size = shipRequirement.Size,
             };
         }
      }

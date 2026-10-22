@@ -14,16 +14,16 @@ public class Game
     
     public IEnumerable<ShipRequirement> Ships { get; set; } = new List<ShipRequirement>
     {
-        new() { Length = 4 },
-        new() { Length = 4 },
-        new() { Length = 4 },
-        new() { Length = 4 },
-        new() { Length = 3 },
-        new() { Length = 3 },
-        new() { Length = 3 },
-        new() { Length = 2 },
-        new() { Length = 2 },
-        new() { Length = 1 },
+        new() { Size = 4 },
+        new() { Size = 4 },
+        new() { Size = 4 },
+        new() { Size = 4 },
+        new() { Size = 3 },
+        new() { Size = 3 },
+        new() { Size = 3 },
+        new() { Size = 2 },
+        new() { Size = 2 },
+        new() { Size = 1 },
     };
 
     public Player? AddPlayer(string playerName)

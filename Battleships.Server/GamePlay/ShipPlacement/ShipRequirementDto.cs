@@ -1,6 +1,6 @@
-namespace Battleships.Server.GamePlay;
+namespace Battleships.Server.GamePlay.ShipPlacement;
 
 public class ShipRequirementDto
 {
-    public required int Length { get; init; }
+    public required int Size { get; init; }
 }

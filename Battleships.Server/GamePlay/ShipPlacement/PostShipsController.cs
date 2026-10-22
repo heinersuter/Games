@@ -14,15 +14,27 @@ public class PostShipsController(GameStore gameStore) : ControllerBase
         {
             return BadRequest("Cannot place ships at this time");
         }
-        
+
         var player = gameStore.Game.GetOwnPlayer(playerSecret);
         if (player == null)
         {
             return NotFound("No player found for the provided secret");
         }
-        
-        ShipPlacementService.PlaceShips(player.Grid, request.Ships);
-        
+
+        var validationError = ShipPlacementValidator.ValidateShips(
+            gameStore.Game.Ships.ToList(), 
+            request.Ships.ToList());
+        if (validationError != null)
+        {
+            return BadRequest(validationError);
+        }
+
+        var placementError = ShipPlacementService.PlaceShips(player.Grid, request.Ships);
+        if (placementError != null)
+        {
+            return BadRequest(placementError);
+        }
+
         var opponent = gameStore.Game.GetOpponentPlayer(playerSecret);
         if (opponent?.Grid.Status == GridStatus.ShipsPlaced)
         {
