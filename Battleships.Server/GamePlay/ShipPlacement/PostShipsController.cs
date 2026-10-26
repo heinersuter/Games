@@ -20,6 +20,11 @@ public class PostShipsController(GameStore gameStore) : ControllerBase
         {
             return NotFound("No player found for the provided secret");
         }
+        
+        if (player.Grid.Status == GridStatus.ShipsPlaced)
+        {
+            return BadRequest("Ships have already been placed for this player");
+        }
 
         var validationError = ShipPlacementValidator.ValidateShips(
             gameStore.Game.Ships.ToList(), 

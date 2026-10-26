@@ -8,20 +8,20 @@ public class Game
 
     public GameStatus Status { get; set; } = GameStatus.WaitingForPlayers;
 
-    public Player? Player1 { get; private set; }
+    private Player? _player1;
 
-    public Player? Player2 { get; private set; }
+    private Player? _player2;
     
     public IEnumerable<ShipRequirement> Ships { get; set; } = new List<ShipRequirement>
     {
-        new() { Size = 4 },
-        new() { Size = 4 },
-        new() { Size = 4 },
-        new() { Size = 4 },
-        new() { Size = 3 },
-        new() { Size = 3 },
-        new() { Size = 3 },
-        new() { Size = 2 },
+        // new() { Size = 4 },
+        // new() { Size = 4 },
+        // new() { Size = 4 },
+        // new() { Size = 4 },
+        // new() { Size = 3 },
+        // new() { Size = 3 },
+        // new() { Size = 3 },
+        // new() { Size = 2 },
         new() { Size = 2 },
         new() { Size = 1 },
     };
@@ -30,27 +30,27 @@ public class Game
     {
         lock (_playerLock)
         {
-            if (Player1 == null)
+            if (_player1 == null)
             {
-                Player1 = new Player
+                _player1 = new Player
                 {
                     Name = playerName,
                     Secret = Guid.NewGuid(),
                     Grid = new Grid(),
                 };
-                return Player1;
+                return _player1;
             }
 
-            if (Player2 == null && Player1.Name != playerName)
+            if (_player2 == null && _player1.Name != playerName)
             {
-                Player2 = new Player
+                _player2 = new Player
                 {
                     Name = playerName,
                     Secret = Guid.NewGuid(),
                     Grid = new Grid(),
                 };
                 Status = GameStatus.PlacingShips;
-                return Player2;
+                return _player2;
             }
 
             return null;
@@ -59,14 +59,14 @@ public class Game
     
     public Player? GetOwnPlayer(Guid playerSecret)
     {
-        if (Player1?.Secret == playerSecret)
+        if (_player1?.Secret == playerSecret)
         {
-            return Player1;
+            return _player1;
         }
 
-        if (Player2?.Secret == playerSecret)
+        if (_player2?.Secret == playerSecret)
         {
-            return Player2;
+            return _player2;
         }
 
         return null;
@@ -74,14 +74,14 @@ public class Game
     
     public Player? GetOpponentPlayer(Guid playerSecret)
     {
-        if (Player1?.Secret != playerSecret)
+        if (_player1?.Secret != playerSecret)
         {
-            return Player1;
+            return _player1;
         }
 
-        if (Player2?.Secret != playerSecret)
+        if (_player2?.Secret != playerSecret)
         {
-            return Player2;
+            return _player2;
         }
 
         return null;
