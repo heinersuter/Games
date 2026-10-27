@@ -1,5 +1,7 @@
 <Solution>
   <Folder Name="/Battleships/">
+    <Project Path="Battleships.Client.Console/Battleships.Client.Console.csproj" />
+    <Project Path="Battleships.Client.Shared/Battleships.Client.Shared.csproj" />
     <Project Path="Battleships.Server/Battleships.Server.csproj" />
     <Project Path="Battleships/Battleships.csproj" />
   </Folder>

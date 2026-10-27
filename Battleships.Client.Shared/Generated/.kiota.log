@@ -1,0 +1,1 @@
+Warning: KiotaBuilder OpenAPI warning: #/components/schemas/CellLocationDto/properties/column - The format char is not supported by Kiota for the type String and will be ignored.
